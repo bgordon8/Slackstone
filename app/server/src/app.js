@@ -1,5 +1,6 @@
 import express from 'express';
 import { json, urlencoded } from 'body-parser';
+import bcrypt from 'bcryptjs';
 import db from './db';
 
 const app = express();
@@ -13,7 +14,22 @@ app.post('/auth/login', async (req, res) => {
 
     const user = await db('users').where({ email }).first();
 
-    console.log(user);
+    if (!user) {
+      res.status(401).status({
+        status: 'error',
+        message: 'invalid credentials',
+      });
+    }
+
+    const valid = await bcrypt.compareSync(password, user.password);
+
+    if (!valid) {
+      res.status(401).status({
+        status: 'error',
+        message: 'invalid credentials',
+      });
+    }
+
     res.status(200).send({
       status: 'success',
       userInfo: user,
