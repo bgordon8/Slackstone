@@ -1,7 +1,8 @@
 import express from 'express';
 import { json, urlencoded } from 'body-parser';
-import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import db from './db';
+import { comparePass, createToken } from './utils';
 
 const app = express();
 
@@ -21,23 +22,28 @@ app.post('/auth/login', async (req, res) => {
       });
     }
 
-    const valid = await bcrypt.compareSync(password, user.password);
+    const passwordValid = await comparePass(password, user.password);
 
-    if (!valid) {
-      res.status(401).status({
-        status: 'error',
-        message: 'invalid credentials',
+    if (passwordValid) {
+      const { password, ...rest } = user;
+
+      const userInfo = Object.assign({}, { ...rest });
+
+      const token = createToken(user);
+
+      const decodedToken = jwt.decode(token);
+      const expiresAt = decodedToken.exp;
+
+      res.status(200).send({
+        status: 'success',
+        message: 'user logged in',
+        token,
+        userInfo,
+        expiresAt,
       });
+    } else {
+      res.status(403).json({ status: 'error', message: err.message });
     }
-
-    const { password, ...rest } = user;
-
-    const userInfo = Object.assign({}, { ...rest });
-
-    res.status(200).send({
-      status: 'success',
-      userInfo: user,
-    });
   } catch (err) {
     res.status(500).send({
       status: 'error',

@@ -34,6 +34,10 @@ describe('routes: auth', () => {
       expect(res.body.userInfo.username).toBe('newUser');
       expect(res.body.userInfo).toHaveProperty('role');
       expect(res.body.userInfo.role).toBe('ADMIN');
+      expect(res.body).toHaveProperty('token');
+      expect(res.body).toHaveProperty('expiresAt');
+      expect(res.body).toHaveProperty('message');
+      expect(res.body.message).toBe('user logged in');
     });
   });
 });

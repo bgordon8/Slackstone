@@ -12,7 +12,7 @@ export async function comparePass(userPassword, dbPassword) {
 }
 
 export function createToken(user) {
-  if (user.role) {
+  if (!user.role) {
     throw new Error('no user role specified');
   }
 
