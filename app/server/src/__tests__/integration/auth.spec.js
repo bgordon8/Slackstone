@@ -30,6 +30,10 @@ describe('routes: auth', () => {
       expect(res.body.userInfo.id).toBe(1);
       expect(res.body.userInfo).toHaveProperty('email');
       expect(res.body.userInfo.email).toBe('user@email.com');
+      expect(res.body.userInfo).toHaveProperty('username');
+      expect(res.body.userInfo.username).toBe('newUser');
+      expect(res.body.userInfo).toHaveProperty('role');
+      expect(res.body.userInfo.role).toBe('ADMIN');
     });
   });
 });

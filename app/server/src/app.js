@@ -12,6 +12,8 @@ app.post('/auth/login', async (req, res) => {
     const { email, password } = req.body;
 
     const user = await db('users').where({ email }).first();
+
+    console.log(user);
     res.status(200).send({
       status: 'success',
       userInfo: user,

@@ -1,11 +1,16 @@
+const bcrypt = require('bcryptjs');
+
 exports.seed = async (knex) => {
+  const salt = bcrypt.genSaltSync();
+  const hash = bcrypt.hashSync('password123', salt);
+
   await knex('users').del();
 
   await knex('users').insert([
     {
       username: 'newUser',
       email: 'user@email.com',
-      password: 'password123',
+      password: hash,
       role: 'ADMIN',
     },
   ]);
