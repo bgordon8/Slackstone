@@ -10,8 +10,18 @@ beforeAll(async () => {
   await db.seed.run();
 });
 
-afterall(async () => {
+afterAll(async () => {
   await db.destroy();
 });
 
-desribe('routes: auth', () => {});
+describe('routes: auth', () => {
+  describe('POST /auth/login', () => {
+    it('returns a valid user', async () => {
+      const res = await request.post('/auth/login').send({
+        email: 'user@email.com',
+        password: 'password123',
+      });
+      expect(res.status).toBe(200);
+    });
+  });
+});
