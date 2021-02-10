@@ -30,6 +30,10 @@ app.post('/auth/login', async (req, res) => {
       });
     }
 
+    const { password, ...rest } = user;
+
+    const userInfo = Object.assign({}, { ...rest });
+
     res.status(200).send({
       status: 'success',
       userInfo: user,
