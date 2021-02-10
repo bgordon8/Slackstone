@@ -22,6 +22,14 @@ describe('routes: auth', () => {
         password: 'password123',
       });
       expect(res.status).toBe(200);
+      expect(res.type).toBe('application/json');
+      expect(res.body).toHaveProperty('status');
+      expect(res.body.status).toBe('success');
+      expect(res.body).toHaveProperty('userInfo');
+      expect(res.body.userInfo).toHaveProperty('id');
+      expect(res.body.userInfo.id).toBe(1);
+      expect(res.body.userInfo).toHaveProperty('email');
+      expect(res.body.userInfo.email).toBe('user@email.com');
     });
   });
 });
