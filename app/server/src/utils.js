@@ -11,6 +11,13 @@ export async function comparePass(userPassword, dbPassword) {
   }
 }
 
+export function hashPassword(password) {
+  const salt = bcrypt.genSaltSync();
+  const hash = bcrypt.hashSync(password, salt);
+
+  return hash;
+}
+
 export function createToken(user) {
   if (!user.role) {
     throw new Error('no user role specified');

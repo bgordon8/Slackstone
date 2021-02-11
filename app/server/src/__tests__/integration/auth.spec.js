@@ -16,7 +16,7 @@ afterAll(async () => {
 
 describe('routes: auth', () => {
   describe('POST /auth/login', () => {
-    it('returns a valid user', async () => {
+    it('returns a valid user with token', async () => {
       const res = await request.post('/auth/login').send({
         email: 'user@email.com',
         password: 'password123',
@@ -38,6 +38,34 @@ describe('routes: auth', () => {
       expect(res.body).toHaveProperty('expiresAt');
       expect(res.body).toHaveProperty('message');
       expect(res.body.message).toBe('user logged in');
+    });
+  });
+
+  describe('POST /auth/register', () => {
+    it('returns a valid user with a token', async () => {
+      const res = await request.post('/auth/register').send({
+        username: 'test',
+        email: 'new@email.com',
+        password: 'password123',
+      });
+      console.log(res.body);
+
+      expect(res.status).toBe(200);
+      expect(res.type).toBe('application/json');
+      expect(res.body).toHaveProperty('status');
+      expect(res.body.status).toBe('success');
+      expect(res.body).toHaveProperty('userInfo');
+      expect(res.body.userInfo).toHaveProperty('id');
+      expect(res.body.userInfo.id).toBe(2);
+      expect(res.body.userInfo).toHaveProperty('email');
+      expect(res.body.userInfo.email).toBe('new@email.com');
+      expect(res.body.userInfo).toHaveProperty('username');
+      expect(res.body.userInfo.username).toBe('test');
+      expect(res.body.userInfo).toHaveProperty('role');
+      expect(res.body.userInfo.role).toBe('USER');
+      expect(res.body).toHaveProperty('token');
+      expect(res.body).toHaveProperty('expiresAt');
+      expect(res.body).toHaveProperty('message');
     });
   });
 });
