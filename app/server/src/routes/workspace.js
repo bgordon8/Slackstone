@@ -36,4 +36,27 @@ router.get('/workspaces/:workspaceId', async (req, res) => {
     });
   }
 });
+
+router.post('/workspaces', async (req, res) => {
+  try {
+    const { name } = req.body;
+    const [workspace] = await db('workspaces')
+      .insert({
+        name,
+        ownerId: res.locals.user.id,
+      })
+      .returning('*');
+
+    res.status(200).send({
+      status: 'success',
+      workspace,
+    });
+  } catch (err) {
+    res.status(500).send({
+      status: 'error',
+      message: err.message,
+    });
+  }
+});
+
 export default router;
