@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "test": "jest"
+    "test": "jest -i"
   },
   "license": "MIT",
   "devDependencies": {
