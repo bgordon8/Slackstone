@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { loginUser } from '../actions/auth';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const auth = useSelector(({ auth }) => auth);
+  const dispatch = useDispatch();
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    dispatch(loginUser({ email, password }));
+  };
   return (
     <div>
       <form>
@@ -25,14 +34,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            console.log(email, password);
-          }}
-        >
-          Login
-        </button>
+        <button onClick={handleLogin}>Login</button>
       </form>
     </div>
   );
