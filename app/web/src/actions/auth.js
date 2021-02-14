@@ -16,7 +16,10 @@ export const loginUser = ({ email, password }) => {
 
       const responseBody = await res.json();
 
-      console.log(responseBody);
+      dispatch({
+        type: AUTH_SUCCESS,
+        payload: responseBody,
+      });
     } catch (err) {
       console.log(err);
     }
