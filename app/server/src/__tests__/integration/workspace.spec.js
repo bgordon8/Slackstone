@@ -78,4 +78,20 @@ describe('routes : workspace', () => {
       expect(res.body.workspace.ownerId).toBe(1);
     });
   });
+
+  describe('PUT /workspaces/:id', () => {
+    it('updates a workspace by id', async () => {
+      const res = await request.put('/workspaces/1').send({
+        name: 'updated workspace name',
+      });
+
+      expect(res.status).toBe(200);
+      expect(res.type).toBe('application/json');
+      expect(res.body).toHaveProperty('status');
+      expect(res.body.status).toBe('success');
+      expect(res.body).toHaveProperty('workspace');
+      expect(res.body.workspace).toHaveProperty('name');
+      expect(res.body.workspace.name).toBe('updated workspace name');
+    });
+  });
 });

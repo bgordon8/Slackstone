@@ -59,4 +59,31 @@ router.post('/workspaces', async (req, res) => {
   }
 });
 
+router.put('/workspaces/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const workspace = await db('workspaces').where({ id }).first();
+
+    if (!workspace) {
+      throw new Error('workspace does not exist');
+    }
+
+    const [updatedWorkspace] = await db('workspaces')
+      .where({ id: workspace.id })
+      .update({ name: req.body.name })
+      .returning('*');
+
+    res.status(200).send({
+      status: 'success',
+      workspace: updatedWorkspace,
+    });
+  } catch (err) {
+    res.status(500).send({
+      status: 'error',
+      message: err.message,
+    });
+  }
+});
+
 export default router;

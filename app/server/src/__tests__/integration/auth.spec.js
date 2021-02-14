@@ -48,7 +48,6 @@ describe('routes: auth', () => {
         email: 'new@email.com',
         password: 'password123',
       });
-      console.log(res.body);
 
       expect(res.status).toBe(200);
       expect(res.type).toBe('application/json');
