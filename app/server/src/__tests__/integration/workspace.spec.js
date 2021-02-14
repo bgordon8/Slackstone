@@ -4,17 +4,16 @@ import db from '../../db';
 
 const request = supertest(app);
 
-beforeAll(async () => {
-  await db.migrate.rollback();
-  await db.migrate.latest();
-  await db.seed.run();
-});
-
 afterAll(async () => {
   await db.destroy();
 });
 
 describe('routes : workspace', () => {
+  beforeEach(async () => {
+    await db.migrate.rollback();
+    await db.migrate.latest();
+    await db.seed.run();
+  });
   describe('GET /workspaces', () => {
     it('returns all workspaces', async () => {
       const res = await request.get('/workspaces');
@@ -92,6 +91,22 @@ describe('routes : workspace', () => {
       expect(res.body).toHaveProperty('workspace');
       expect(res.body.workspace).toHaveProperty('name');
       expect(res.body.workspace.name).toBe('updated workspace name');
+    });
+  });
+
+  describe('DELETE /workspaces/:id', () => {
+    it('deletes workspace by id', async () => {
+      const res = await request.del('/workspaces/1');
+
+      expect(res.status).toBe(200);
+      expect(res.type).toBe('application/json');
+      expect(res.body).toHaveProperty('status');
+      expect(res.body.status).toBe('success');
+      expect(res.body).toHaveProperty('workspace');
+      expect(res.body.workspace).toHaveProperty('id');
+      expect(res.body.workspace.id).toBe(1);
+      expect(res.body.workspace).toHaveProperty('name');
+      expect(res.body.workspace.name).toBe('apollo');
     });
   });
 });
