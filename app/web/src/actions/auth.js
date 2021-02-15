@@ -3,7 +3,7 @@ import { AUTH_SUCCESS } from '../constants/types';
 export const loginUser = ({ email, password }) => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3000/auth/login', {
+      const res = await fetch('http://localhost:4000/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
