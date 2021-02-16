@@ -1,12 +1,20 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getChannelData } from '../actions/channel';
 
 const Channel = () => {
+  const { workspaceId, channelId } = useParams();
   const channel = useSelector((state) => state.channel);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getChannelData({ channelId }));
+  }, [dispatch, workspaceId, channelId]);
   return (
     <>
-      <Header></Header>
+      <Header>Channel Name</Header>
       <Messages>
         <MessagesList></MessagesList>
       </Messages>

@@ -29,8 +29,9 @@ const Workspace = () => {
       <Workspaces workspaces={app.workspaces} />
       <Channels channels={workspace.channels} user={auth.userInfo} />
       <Switch>
-        <Route path={`${path}/channel/:channelId`} />
-        <Channel />
+        <Route path={`${path}/channel/:channelId`}>
+          <Channel />
+        </Route>
       </Switch>
     </Container>
   );
