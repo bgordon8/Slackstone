@@ -16,4 +16,17 @@ router.get('/channels', async (req, res) => {
   }
 });
 
+router.get('/channels/:channelId/data', async (req, res) => {
+  try {
+    const { channelId } = req.params;
+    const channel = await db('channels').where({ id: channelId }).first();
+    res.status(200).send({});
+  } catch (err) {
+    res.status(500).send({
+      status: 'error',
+      message: err.message,
+    });
+  }
+});
+
 export default router;

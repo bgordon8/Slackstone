@@ -31,4 +31,25 @@ describe('routes : channel', () => {
       expect(res.body.channels[0].name).toBe('general');
     });
   });
+
+  describe('GET /channels/:/channelId/data', () => {
+    it('returns channel data by channel id', async () => {
+      const res = await request.get('channels/1/data');
+
+      expect(res.status).toBe(200);
+      expect(res.type).toBe('application/json');
+      expect(res.body).toHaveProperty('status');
+      expect(res.body.status).toBe('success');
+      expect(res.body).toHaveProperty('name');
+      expect(res.body.name).toBe('general');
+      expect(res.body).toHaveProperty('private');
+      expect(res.body.private).toBe(false);
+      expect(res.body).toHaveProperty('default');
+      expect(res.body.default).toBe(true);
+      expect(res.body).toHaveProperty('members');
+      expect(res.body.members.length).toBe(1);
+      expect(res.body).toHaveProperty('messages');
+      expect(res.body.messages.length).toBe(1);
+    });
+  });
 });
