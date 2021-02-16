@@ -1,4 +1,4 @@
-import { GET_WORKSPACE_DATA } from '../constants/types';
+import { GET_WORKSPACE_DATA, SET_ACTIVE_CHANNEL } from '../constants/types';
 import workspaceReducer from '../reducers/workspace';
 
 export const getWorkspaceData = ({ workspaceId }) => {
@@ -24,5 +24,12 @@ export const getWorkspaceData = ({ workspaceId }) => {
     } catch (err) {
       console.log(err);
     }
+  };
+};
+
+export const setActiveChannel = (channel) => {
+  return {
+    type: SET_ACTIVE_CHANNEL,
+    payload: channel,
   };
 };

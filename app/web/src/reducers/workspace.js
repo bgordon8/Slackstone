@@ -1,4 +1,4 @@
-import { GET_WORKSPACE_DATA } from '../constants/types';
+import { GET_WORKSPACE_DATA, SET_ACTIVE_CHANNEL } from '../constants/types';
 
 const intialState = {
   name: null,
@@ -21,6 +21,11 @@ const workspaceReducer = (state = intialState, action) => {
         owner: action.payload.owner,
       };
     }
+    case SET_ACTIVE_CHANNEL:
+      return {
+        ...state,
+        activeChannel: action.payload,
+      };
     default:
       return state;
   }

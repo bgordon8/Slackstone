@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { Switch, Route, useParams, useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import Workspaces from '../components/Workspace/Workspaces';
-import Channels from '../components/Workspace/Channels';
 import { getWorkspaces } from '../actions/app';
 import { getWorkspaceData } from '../actions/workspace';
+import Workspaces from '../components/Workspace/Workspaces';
+import Channels from '../components/Workspace/Channels';
+import Channel from '../containers/Channel';
 
 const Workspace = () => {
   const { workspaceId } = useParams();
+  const { path } = useRouteMatch();
   const app = useSelector((state) => state.app);
   const auth = useSelector((state) => state.auth);
   const workspace = useSelector((state) => state.workspace);
@@ -26,6 +28,10 @@ const Workspace = () => {
     <Container>
       <Workspaces workspaces={app.workspaces} />
       <Channels channels={workspace.channels} user={auth.userInfo} />
+      <Switch>
+        <Route path={`${path}/channel/:channelId`} />
+        <Channel />
+      </Switch>
     </Container>
   );
 };
