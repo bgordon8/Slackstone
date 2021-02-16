@@ -1,20 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { loginUser } from '../actions/auth';
+import { useSelector } from 'react-redux';
+import LoginForm from '../components/Login/LoginForm';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const auth = useSelector(({ auth }) => auth);
-  const dispatch = useDispatch();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    dispatch(loginUser({ email, password }));
-  };
   return (
     <Container>
       <FormContainer>
@@ -24,27 +16,7 @@ const Login = () => {
             Need and account? <Link to="/register">Register</Link>
           </span>
         </FormHeader>
-        <form>
-          <div>
-            <label>email:</label>
-            <input
-              type="text"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>password:</label>
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <button onClick={handleLogin}>Login</button>
-        </form>
+        <LoginForm />
       </FormContainer>
     </Container>
   );
