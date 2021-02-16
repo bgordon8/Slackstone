@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getWorkspaces } from '../actions/app';
 
@@ -21,8 +22,10 @@ const GetStarted = () => {
         <Card>
           <Subtitle>Workspaces for {auth.userInfo.email}</Subtitle>
           {workspaces.map((workspace, idx) => (
-            <div key={`workspace-${idx}`}>
-              <WorkspaceListItem>{workspace.name}</WorkspaceListItem>
+            <div key={`workspace-${workspace.id}`}>
+              <Link to={`/workspace/${workspace.id}`}>
+                <WorkspaceListItem>{workspace.name}</WorkspaceListItem>
+              </Link>
               <Hr />
             </div>
           ))}

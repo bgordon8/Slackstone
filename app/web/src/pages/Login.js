@@ -1,12 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect, useSelector } from 'react-redux';
 import { loginUser } from '../actions/auth';
 import LoginForm from '../components/Login/LoginForm';
 
 const Login = ({ loginUser }) => {
   const auth = useSelector(({ auth }) => auth);
+
+  if (auth.isLoggedIn) {
+    return <Redirect to="get-started" />;
+  }
 
   return (
     <Container>
