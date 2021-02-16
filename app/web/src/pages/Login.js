@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import { loginUser } from '../actions/auth';
 import LoginForm from '../components/Login/LoginForm';
 
-const Login = () => {
+const Login = ({ loginUser }) => {
   const auth = useSelector(({ auth }) => auth);
 
   return (
@@ -16,13 +17,13 @@ const Login = () => {
             Need and account? <Link to="/register">Register</Link>
           </span>
         </FormHeader>
-        <LoginForm />
+        <LoginForm loginUser={loginUser} />
       </FormContainer>
     </Container>
   );
 };
 
-export default Login;
+export default connect(null, { loginUser })(Login);
 
 const Container = styled.div`
   display: flex;

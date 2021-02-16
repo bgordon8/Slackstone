@@ -1,6 +1,6 @@
 import { AUTH_SUCCESS } from '../constants/types';
 
-export const loginUser = ({ email, password }) => {
+export const loginUser = ({ email, password }, success) => {
   return async (dispatch) => {
     try {
       const res = await fetch('http://localhost:4000/auth/login', {
@@ -28,6 +28,7 @@ export const loginUser = ({ email, password }) => {
         type: AUTH_SUCCESS,
         payload: responseBody,
       });
+      success(true, { user: responseBody.userInfo });
     } catch (err) {
       console.log(err);
     }

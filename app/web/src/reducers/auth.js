@@ -16,17 +16,17 @@ const initialState = {
   token,
   expiresAt,
   userInfo: userInfo ? JSON.parse(userInfo) : {},
-  isLoggedIn: isAuthenticated,
+  isLoggedIn: isAuthenticated(),
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTH_SUCCESS: {
       return {
-        ...state,
         token: action.payload.token,
         expiresAt: action.payload.expiresAt,
         userInfo: action.payload.userInfo,
+        isLoggedIn: true,
       };
     }
 

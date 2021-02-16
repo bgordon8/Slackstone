@@ -1,12 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
-import { loginUser } from '../../actions/auth';
 
-const LoginForm = () => {
-  const dispatch = useDispatch();
+const LoginForm = ({ loginUser }) => {
   const history = useHistory();
   const formik = useFormik({
     initialValues: {
@@ -14,8 +11,11 @@ const LoginForm = () => {
       password: '',
     },
     onSubmit: ({ email, password }) => {
-      dispatch(loginUser({ email, password }));
-      history.push('/get-started');
+      loginUser({ email, password }, (success, { user }) => {
+        if (success && !!user) {
+          history.push('/get-started');
+        }
+      });
     },
   });
   return (
