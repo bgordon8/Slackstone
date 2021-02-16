@@ -109,4 +109,20 @@ describe('routes : workspace', () => {
       expect(res.body.workspace.name).toBe('apollo');
     });
   });
+
+  describe('GET /workspaces/workspaceId/data', () => {
+    it('returns workspace data by workspace id', async () => {
+      const res = await request.get('/workspaces/1/data');
+
+      expect(res.status).toBe(200);
+      expect(res.type).toBe('application/json');
+      expect(res.body).toHaveProperty('status');
+      expect(res.body.status).toBe('success');
+      expect(res.body).toHaveProperty('name');
+      expect(res.body.name).toBe('apollo');
+      expect(res.body).toHaveProperty('channels');
+      expect(res.body.channels.length).toBe(1);
+      expect(res.body.channels[0].name).toBe('general');
+    });
+  });
 });

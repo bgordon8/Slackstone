@@ -97,7 +97,10 @@ router.delete('/workspaces/:id', async (req, res) => {
       .del()
       .returning('*');
 
-    res.status(200).send({ status: 'success', workspace: deletedWorkspace });
+    res.status(200).send({
+      status: 'success',
+      workspace: deletedWorkspace,
+    });
   } catch (err) {
     res.status(500).send({
       status: 'error',
@@ -106,4 +109,29 @@ router.delete('/workspaces/:id', async (req, res) => {
   }
 });
 
+router.get('/workspaces/:workspaceId/data', async (req, res) => {
+  try {
+    const { workspaceId } = req.params;
+    const workspace = await db('workspaces').where({ id: workspaceId }).first();
+    const owner = await db('users')
+      .where({ id: workspace.ownerId })
+      .first(['id', 'username', 'email']);
+    const channels = await db('channels').where({ workspaceId }).select();
+
+    res.status(200).send({
+      status: 'success',
+      id: workspaceId,
+      name: workspace.name,
+      channels,
+      defaultChannel: channels
+        .filter((channel) => channel.default === true)
+        .pop(),
+    });
+  } catch (err) {
+    res.status(500).send({
+      status: 'error',
+      message: err.message,
+    });
+  }
+});
 export default router;
