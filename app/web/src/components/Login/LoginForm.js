@@ -6,36 +6,41 @@ import { useFormik } from 'formik';
 import { loginUser } from '../../actions/auth';
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    dispatch(loginUser({ email, password }));
-  };
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: ({ email, password }) => {
+      dispatch(loginUser({ email, password }));
+    },
+  });
   return (
-    <Form>
+    <Form onSubmit={formik.handleSubmit}>
       <FormGroup>
         <label>email:</label>
         <Input
+          id="email"
+          name="email"
           type="text"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={formik.values.email}
+          onChange={formik.handleChange}
         />
       </FormGroup>
       <FormGroup>
         <label>password:</label>
         <Input
+          id="password"
+          name="password"
           type="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formik.values.password}
+          onChange={formik.handleChange}
         />
       </FormGroup>
-      <LoginButton onClick={handleLogin}>Login</LoginButton>
+      <LoginButton type="submit">Login</LoginButton>
     </Form>
   );
 };
@@ -62,8 +67,8 @@ const Input = styled.input`
 const LoginButton = styled.button`
   background: linear-gradient(
     135deg,
-    rbga(0, 97, 215, 1) 0%,
-    rbga(0, 200, 255, 1) 100%
+    rgba(0, 97, 215, 1) 0%,
+    rgba(0, 200, 255, 1) 100%
   );
   padding: 0.5rem 1.5rem;
   border: none;
