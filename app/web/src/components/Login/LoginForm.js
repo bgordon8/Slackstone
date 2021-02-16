@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -7,6 +7,7 @@ import { loginUser } from '../../actions/auth';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -14,6 +15,7 @@ const LoginForm = () => {
     },
     onSubmit: ({ email, password }) => {
       dispatch(loginUser({ email, password }));
+      history.push('/get-started');
     },
   });
   return (
