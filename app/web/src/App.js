@@ -9,15 +9,15 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
         <Route path="/login">
           <Login />
         </Route>
         <AuthenticatedRoute path="/get-started">
           <GetStarted />
         </AuthenticatedRoute>
+        <Route path="/">
+          <Home />
+        </Route>
       </Switch>
     </Router>
   );

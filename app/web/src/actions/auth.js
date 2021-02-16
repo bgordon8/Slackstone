@@ -16,6 +16,14 @@ export const loginUser = ({ email, password }) => {
 
       const responseBody = await res.json();
 
+      if (!res.ok) {
+        throw new Error(responseBody.message);
+      }
+
+      localStorage.setItem('token', responseBody.token);
+      localStorage.setItem('userInfo', JSON.stringify(responseBody.userInfo));
+      localStorage.setItem('expiresAt', responseBody.expiresAt);
+
       dispatch({
         type: AUTH_SUCCESS,
         payload: responseBody,
