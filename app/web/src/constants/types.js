@@ -1,1 +1,2 @@
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const GET_WORKSPACES = 'GET_WORKSPACES';

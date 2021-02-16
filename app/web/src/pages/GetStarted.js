@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { getWorkspaces } from '../actions/app';
 
 const GetStarted = () => {
+  const auth = useSelector(({ auth }) => auth);
+  const workspaces = useSelector(({ workspaces }) => workspaces);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getWorkspaces({ userId: auth.userInfo.id }));
+  }, []);
+
   return (
     <Container>
       <Header>
@@ -9,7 +19,7 @@ const GetStarted = () => {
       </Header>
       <Main>
         <Card>
-          <Subtitle>Workspaces for user</Subtitle>
+          <Subtitle>Workspaces for {auth.userInfo.email}</Subtitle>
           {[{ name: 'apollo' }].map((workspace, idx) => (
             <div key={`workspace-${idx}`}>
               <WorkspaceListItem>{workspace.name}</WorkspaceListItem>
