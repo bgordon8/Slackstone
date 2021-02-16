@@ -8,7 +8,7 @@ import { getWorkspaces } from '../actions/app';
 import { getWorkspaceData } from '../actions/workspace';
 
 const Workspace = () => {
-  const { workspaceId } = useParams;
+  const { workspaceId } = useParams();
   const app = useSelector((state) => state.app);
   const auth = useSelector((state) => state.auth);
   const workspace = useSelector((state) => state.workspace);

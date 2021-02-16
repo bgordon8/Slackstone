@@ -126,6 +126,7 @@ router.get('/workspaces/:workspaceId/data', async (req, res) => {
       defaultChannel: channels
         .filter((channel) => channel.default === true)
         .pop(),
+      owner,
     });
   } catch (err) {
     res.status(500).send({

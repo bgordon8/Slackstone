@@ -1,7 +1,9 @@
 import { GET_WORKSPACE_DATA } from '../constants/types';
+import workspaceReducer from '../reducers/workspace';
 
 export const getWorkspaceData = ({ workspaceId }) => {
   return async (dispatch) => {
+    console.log(workspaceReducer);
     try {
       const res = await fetch(
         `http://localhost:4000/workspaces/${workspaceId}/data`,

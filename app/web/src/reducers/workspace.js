@@ -18,6 +18,7 @@ const workspaceReducer = (state = intialState, action) => {
         channels: action.payload.channels,
         directMessages: action.payload.directMessages,
         defaultChannel: action.payload.defaultChannel,
+        owner: action.payload.owner,
       };
     }
     default:

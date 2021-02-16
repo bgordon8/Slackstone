@@ -123,6 +123,8 @@ describe('routes : workspace', () => {
       expect(res.body).toHaveProperty('channels');
       expect(res.body.channels.length).toBe(1);
       expect(res.body.channels[0].name).toBe('general');
+      expect(res.body).toHaveProperty('owner');
+      expect(res.body.owners.id).toBe(1);
     });
   });
 });
