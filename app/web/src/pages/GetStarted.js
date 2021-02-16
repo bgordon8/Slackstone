@@ -5,7 +5,7 @@ import { getWorkspaces } from '../actions/app';
 
 const GetStarted = () => {
   const auth = useSelector(({ auth }) => auth);
-  const workspaces = useSelector(({ workspaces }) => workspaces);
+  const workspaces = useSelector(({ app }) => app.workspaces);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const GetStarted = () => {
       <Main>
         <Card>
           <Subtitle>Workspaces for {auth.userInfo.email}</Subtitle>
-          {[{ name: 'apollo' }].map((workspace, idx) => (
+          {workspaces.map((workspace, idx) => (
             <div key={`workspace-${idx}`}>
               <WorkspaceListItem>{workspace.name}</WorkspaceListItem>
               <Hr />

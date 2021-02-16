@@ -13,7 +13,10 @@ export const getWorkspaces = ({ userId }) => {
         }
       );
       const responseBody = await res.json();
-      console.log(responseBody);
+      dispatch({
+        type: GET_WORKSPACES,
+        payload: responseBody.workspaces,
+      });
     } catch (err) {
       console.log(err);
     }
