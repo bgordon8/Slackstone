@@ -26,7 +26,6 @@ export const getChannelData = ({ channelId }) => {
 export const newChannelMessage = ({ message, channelId }) => {
   return async (dispatch) => {
     try {
-      console.log(NEW_CHANNEL_MESSAGE);
       const res = await fetch(
         `http://localhost:4000/channels/${channelId}/messages/new`,
         {
@@ -42,7 +41,6 @@ export const newChannelMessage = ({ message, channelId }) => {
       );
 
       const responseBody = await res.json();
-      console.log('****', res);
       dispatch({
         type: NEW_CHANNEL_MESSAGE,
         payload: responseBody.message,
