@@ -23,7 +23,9 @@ const GetStarted = () => {
           <Subtitle>Workspaces for {auth.userInfo.email}</Subtitle>
           {workspaces.map((workspace, idx) => (
             <div key={`workspace-${workspace.id}`}>
-              <Link to={`/workspace/${workspace.id}`}>
+              <Link
+                to={`/workspace/${workspace.id}/channel/${workspace.defaultChannel.id}`}
+              >
                 <WorkspaceListItem>{workspace.name}</WorkspaceListItem>
               </Link>
               <Hr />
