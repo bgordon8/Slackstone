@@ -32,10 +32,10 @@ describe('routes : channel', () => {
     });
   });
 
-  describe('GET /channels/:/channelId/data', () => {
+  describe('GET /channels/:channelId/data', () => {
     it('returns channel data by channel id', async () => {
-      const res = await request.get('channels/1/data');
-
+      const res = await request.get('/channels/1/data');
+      console.log(res.body);
       expect(res.status).toBe(200);
       expect(res.type).toBe('application/json');
       expect(res.body).toHaveProperty('status');
@@ -47,9 +47,9 @@ describe('routes : channel', () => {
       expect(res.body).toHaveProperty('default');
       expect(res.body.default).toBe(true);
       expect(res.body).toHaveProperty('members');
-      expect(res.body.members.length).toBe(1);
+      expect(res.body.members.length).toBe(2);
       expect(res.body).toHaveProperty('messages');
-      expect(res.body.messages.length).toBe(1);
+      expect(res.body.messages.length).toBe(2);
     });
   });
 });
