@@ -1,4 +1,4 @@
-import { GET_CHANNEL_DATA } from '../constants/types';
+import { GET_CHANNEL_DATA, NEW_CHANNEL_MESSAGE } from '../constants/types';
 
 const intialState = {
   name: null,
@@ -16,6 +16,12 @@ const channelReducer = (state = intialState, action) => {
         private: action.payload.private,
         members: action.payload.members,
         messages: action.payload.messages,
+      };
+    }
+    case NEW_CHANNEL_MESSAGE: {
+      return {
+        ...state,
+        messages: state.messages.concat([action.payload]),
       };
     }
     default:

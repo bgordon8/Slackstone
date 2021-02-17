@@ -53,4 +53,30 @@ router.get('/channels/:channelId/data', async (req, res) => {
   }
 });
 
+router.post('/channels/:channelId/messages/new', async (req, res) => {
+  try {
+    const { channelId } = req.params;
+
+    console.log(channelId);
+
+    const channel = await db('channels').where({ id: channelId }).first();
+
+    const [newMessage] = await db('messages')
+      .insert({
+        channelId: channel.id,
+        authorId: res.locals.user.id,
+        text: req.body.message,
+      })
+      .returning('*');
+
+    console.log(newMessage);
+
+    res.status(200).send({ status: 'success', message: newMessage });
+  } catch (err) {
+    res.status(500).send({
+      status: 'error',
+      message: err.message,
+    });
+  }
+});
 export default router;

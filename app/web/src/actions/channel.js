@@ -1,4 +1,4 @@
-import { GET_CHANNEL_DATA } from '../constants/types';
+import { GET_CHANNEL_DATA, NEW_CHANNEL_MESSAGE } from '../constants/types';
 
 export const getChannelData = ({ channelId }) => {
   return async (dispatch) => {
@@ -16,6 +16,36 @@ export const getChannelData = ({ channelId }) => {
       dispatch({
         type: GET_CHANNEL_DATA,
         payload: responseBody,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const newChannelMessage = ({ message, channelId }) => {
+  return async (dispatch) => {
+    try {
+      console.log(NEW_CHANNEL_MESSAGE);
+      const res = await fetch(
+        `http://localhost:4000/channels/${channelId}/messages/new`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify({
+            message,
+          }),
+        }
+      );
+
+      const responseBody = await res.json();
+      console.log('****', res);
+      dispatch({
+        type: NEW_CHANNEL_MESSAGE,
+        payload: responseBody.message,
       });
     } catch (err) {
       console.log(err);

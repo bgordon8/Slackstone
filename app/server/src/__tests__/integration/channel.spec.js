@@ -52,4 +52,28 @@ describe('routes : channel', () => {
       expect(res.body.messages.length).toBe(2);
     });
   });
+
+  describe('POST /channels/:channelId/messages/new', () => {
+    it('creates a new channel message', async () => {
+      const loginRes = await request.post('/auth/login').send({
+        email: 'user@email.com',
+        password: 'password123',
+      });
+      const res = await request
+        .post('/channels/1/messages/new')
+        .send({
+          message: 'test message',
+        })
+        .set({
+          authorization: `Bearer ${loginRes.body.token}`,
+        });
+
+      expect(res.status).toBe(200);
+      expect(res.type).toBe('application/json');
+      expect(res.body).toHaveProperty('status');
+      expect(res.body.status).toBe('success');
+      expect(res.body).toHaveProperty('message');
+      expect(res.body.message.text).toBe('test message');
+    });
+  });
 });
