@@ -14,9 +14,15 @@ const Channel = () => {
   }, [dispatch, workspaceId, channelId]);
   return (
     <>
-      <Header>Channel Name</Header>
+      <Header>{channel.name}</Header>
       <Messages>
-        <MessagesList></MessagesList>
+        <MessagesList>
+          {channel.messages.map((message) => (
+            <MessagesListItem key={message.messageId}>
+              {message.text}
+            </MessagesListItem>
+          ))}
+        </MessagesList>
       </Messages>
     </>
   );
@@ -35,10 +41,12 @@ const Messages = styled.div`
   text-align: center;
 `;
 const MessagesList = styled.ul`
-  padding: 1em;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  text-align: left;
+  margin: 0;
+  padding: 0;
 `;
 
 const Header = styled.div`
@@ -49,4 +57,11 @@ const Header = styled.div`
   border-bottom: 1px solid #f2f2f2;
   padding: 1em;
   text-align: center;
+`;
+
+const MessagesListItem = styled.li`
+  padding: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  background-color: #f2f2f2;
 `;
