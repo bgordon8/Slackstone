@@ -1,23 +1,43 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
+import socketIOClient from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
 import { getChannelData } from '../actions/channel';
 import { newChannelMessage } from '../actions/channel';
+import { NEW_CHANNEL_MESSAGE } from '../constants/types';
+
+const SOCKET_SERVER = 'http://localhost:4000';
 
 const Channel = () => {
   const { workspaceId, channelId } = useParams();
   const messageContainerRef = useRef();
+  const socketRef = useRef();
   const [message, setMessage] = useState('');
   const channel = useSelector((state) => state.channel);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (messageContainerRef.current) scrollToBottom();
-  });
+  }, [channel.messages]);
 
   useEffect(() => {
     dispatch(getChannelData({ channelId }));
+
+    socketRef.current = socketIOClient(SOCKET_SERVER, {
+      query: { workspaceId },
+    });
+
+    socketRef.current.on(NEW_CHANNEL_MESSAGE, (message) => {
+      if (parseInt(channelId) === message.channelId) {
+        dispatch(newChannelMessage({ message }));
+      }
+    });
+
+    return () => {
+      socketRef.current.close();
+    };
   }, [dispatch, workspaceId, channelId]);
 
   const scrollToBottom = () => {
@@ -44,7 +64,13 @@ const Channel = () => {
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={(e) => {
             if (e.key.toLowerCase() === 'enter') {
-              dispatch(newChannelMessage({ message, channelId }));
+              socketRef.current.emit(NEW_CHANNEL_MESSAGE, {
+                workspaceId: parseInt(workspaceId),
+                channelId: parseInt(channelId),
+                senderId: socketRef.current.id,
+                userId: auth.userInfo.id,
+                message,
+              });
               setMessage('');
             }
           }}

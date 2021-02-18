@@ -29,8 +29,6 @@ router.get('/users/:userId/workspaces', async (req, res) => {
       .groupBy('workspaces.id');
     const workspaces = [...ownedWorkspaces, ...joinedWorkspaces];
 
-    console.log(workspaces);
-
     res.status(200).send({
       status: 'success',
       workspaces: [

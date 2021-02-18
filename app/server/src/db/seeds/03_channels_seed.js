@@ -8,6 +8,12 @@ exports.seed = async (knex) => {
       default: true,
       workspaceId: 1,
     },
+    {
+      id: 2,
+      name: 'A-TEAM',
+      default: false,
+      workspaceId: 1,
+    },
   ]);
 
   await knex.raw(

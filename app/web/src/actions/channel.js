@@ -23,11 +23,11 @@ export const getChannelData = ({ channelId }) => {
   };
 };
 
-export const newChannelMessage = ({ message, channelId }) => {
+export const newChannelMessage = ({ message }) => {
   return async (dispatch) => {
     try {
       const res = await fetch(
-        `http://localhost:4000/channels/${channelId}/messages/new`,
+        `http://localhost:4000/channels/${message.channelId}/messages/new`,
         {
           method: 'POST',
           headers: {
@@ -35,7 +35,7 @@ export const newChannelMessage = ({ message, channelId }) => {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
           body: JSON.stringify({
-            message,
+            message: message.message,
           }),
         }
       );
