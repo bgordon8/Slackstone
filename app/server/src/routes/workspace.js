@@ -118,11 +118,25 @@ router.get('/workspaces/:workspaceId/data', async (req, res) => {
       .first(['id', 'username', 'email']);
     const channels = await db('channels').where({ workspaceId }).select();
 
+    const directMessages = await db('users')
+      .distinctOn('users.id', 'users.username')
+      .leftJoin('direct_messages', (builder) =>
+        builder
+          .on({ 'users.id': 'direct-messages.senderId' })
+          .orOn({ 'users.id': 'direct_messages.recipientId' })
+      )
+      .where({ workspaceId })
+      .select('users.id', 'users.username')
+      .orderBy('users.username', 'DESC');
+
     res.status(200).send({
       status: 'success',
       id: workspaceId,
       name: workspace.name,
       channels,
+      directMessages: Array.isArray(directMessages)
+        ? directMessages.filter((member) => member.id !== res.locals.user.id)
+        : [],
       defaultChannel: channels
         .filter((channel) => channel.default === true)
         .pop(),

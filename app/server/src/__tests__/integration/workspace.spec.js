@@ -122,6 +122,8 @@ describe('routes : workspace', () => {
       expect(res.body.name).toBe('apollo');
       expect(res.body).toHaveProperty('channels');
       expect(res.body.channels.length).toBe(1);
+      expect(res.body).toHaveProperty('directMessages');
+      expect(res.body.directMessages.length).toBe(1);
       expect(res.body.channels[0].name).toBe('general');
       expect(res.body).toHaveProperty('owner');
       expect(res.body.owner.id).toBe(1);
