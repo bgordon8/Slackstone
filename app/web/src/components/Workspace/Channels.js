@@ -1,12 +1,18 @@
 import React from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import Channel from '../Channels/Channel';
 import SideBarHeader from '../SideBarHeader';
+import StyledLink from '../StyledLink';
+import SideBarListItem from '../SideBarListItem';
+import Channel from '../Channels/Channel';
+import Bubble from '../Channels/Bubble';
+import User from '../Channels/User';
 
 const Channels = ({ channels, user }) => {
+  const { url } = useRouteMatch();
   const workspace = useSelector((state) => state.workspace);
-
+  const auth = useSelector((state) => state.auth);
   return (
     <Container>
       <>
@@ -20,6 +26,16 @@ const Channels = ({ channels, user }) => {
             channels.map((channel) => (
               <Channel key={channel.id} channel={channel} />
             ))}
+        </SideBarList>
+      </>
+      <>
+        <SideBarList>
+          <SideBarHeader>Direct Messages</SideBarHeader>
+          <StyledLink to={`${url}/direct-messages/${auth.userInfo.id}`}>
+            <SideBarListItem>
+              <Bubble /> {auth.userInfo.username} <small>(you)</small>
+            </SideBarListItem>
+          </StyledLink>
         </SideBarList>
       </>
     </Container>
