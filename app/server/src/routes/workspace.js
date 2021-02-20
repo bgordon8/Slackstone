@@ -122,7 +122,7 @@ router.get('/workspaces/:workspaceId/data', async (req, res) => {
       .distinctOn('users.id', 'users.username')
       .leftJoin('direct_messages', (builder) =>
         builder
-          .on({ 'users.id': 'direct-messages.senderId' })
+          .on({ 'users.id': 'direct_messages.senderId' })
           .orOn({ 'users.id': 'direct_messages.recipientId' })
       )
       .where({ workspaceId })

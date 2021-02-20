@@ -7,6 +7,7 @@ import { getWorkspaceData } from '../actions/workspace';
 import Workspaces from '../components/Workspace/Workspaces';
 import Channels from '../components/Workspace/Channels';
 import Channel from '../containers/Channel';
+import Conversation from '../containers/Conversation';
 
 const Workspace = () => {
   const { workspaceId } = useParams();
@@ -31,6 +32,11 @@ const Workspace = () => {
       <Switch>
         <Route path={`${path}/channel/:channelId`}>
           <Channel />
+        </Route>
+        <Route>
+          <Conversation
+            path={`${path}/direct-messages/:recipientId`}
+          ></Conversation>
         </Route>
       </Switch>
     </Container>
