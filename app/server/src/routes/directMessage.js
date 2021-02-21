@@ -35,4 +35,22 @@ router.get(
     }
   }
 );
+
+router.post('/direct-messages/:recipientId/new', async (req, res) => {
+  try {
+    const { message } = req.body;
+
+    const [newMessage] = await db('direct_messages')
+      .insert({
+        workspaceId: message.workspaceId,
+        senderId: res.locals.user.id,
+        recipientId: message.recipientId,
+        text: message.message,
+      })
+      .returning('*');
+    res.status(200).send({ status: 'success', message: newMessage });
+  } catch (err) {
+    res.status(500).send({ status: 'error', message: err.message });
+  }
+});
 export default router;

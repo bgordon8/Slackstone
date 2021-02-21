@@ -33,4 +33,31 @@ describe('routes : direct messages', () => {
       expect(res.body.messages.length).toBe(2);
     });
   });
+
+  describe('POST /direct-messages/:recipientId/new', () => {
+    it('creates a direct message for recipient', async () => {
+      const loginRes = await request.post('/auth/login').send({
+        email: 'user@email.com',
+        password: 'password123',
+      });
+      const res = await request
+        .post('/direct-messages/2/new')
+        .send({
+          message: {
+            workspaceId: 1,
+            recipientId: 2,
+            message: 'test message',
+          },
+        })
+        .set({
+          authorization: `Bearer ${loginRes.body.token}`,
+        });
+
+      expect(res.status).toBe(200);
+      expect(res.type).toBe('application/json');
+      expect(res.body).toHaveProperty('status');
+      expect(res.body.status).toBe('success');
+      expect(res.body).toHaveProperty('message');
+    });
+  });
 });
