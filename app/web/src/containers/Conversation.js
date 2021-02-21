@@ -1,8 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import socketIOClient from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getDirectMessageData } from '../actions/directMessage';
+import {
+  getDirectMessageData,
+  newDirectMessage,
+} from '../actions/directMessage';
+import { NEW_DIRECT_MESSAGE } from '../constants/types';
 const SOCKET_SERVER = 'http://localhost:4000';
 
 const Conversation = () => {
@@ -12,6 +17,7 @@ const Conversation = () => {
   const socketRef = useRef();
   const dispatch = useDispatch();
   const directMessage = useSelector((state) => state.directMessage);
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (messageContainerRef.current) scrollToBottom();
@@ -19,6 +25,24 @@ const Conversation = () => {
 
   useEffect(() => {
     dispatch(getDirectMessageData({ workspaceId, recipientId }));
+
+    socketRef.current = socketIOClient(SOCKET_SERVER, {
+      query: { workspaceId },
+    });
+
+    socketRef.current.on(NEW_DIRECT_MESSAGE, (message) => {
+      const workspace = parseInt(workspaceId) === message.workspaceId;
+      const isSender = message.userId === auth.userInfo.id;
+      const isRecipient = message.recipientId === auth.userInfo.id;
+
+      if (workspace && (isSender || isRecipient)) {
+        dispatch(newDirectMessage({ message }));
+      }
+    });
+
+    return () => {
+      socketRef.current.close();
+    };
   }, [dispatch, workspaceId, recipientId]);
 
   const scrollToBottom = () => {
@@ -45,6 +69,18 @@ const Conversation = () => {
           placeholder={`message ${directMessage.user.username}`}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key.toLowerCase() === 'enter') {
+              socketRef.current.emit(NEW_DIRECT_MESSAGE, {
+                workspaceId: parseInt(workspaceId),
+                recipientId: parseInt(recipientId),
+                senderId: socketRef.current.id,
+                userId: auth.userInfo.id,
+                message,
+              });
+              setMessage('');
+            }
+          }}
         />
       </InputContainer>
     </>
