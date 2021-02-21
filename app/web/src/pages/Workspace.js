@@ -33,10 +33,8 @@ const Workspace = () => {
         <Route path={`${path}/channel/:channelId`}>
           <Channel />
         </Route>
-        <Route>
-          <Conversation
-            path={`${path}/direct-messages/:recipientId`}
-          ></Conversation>
+        <Route path={`${path}/direct-messages/:recipientId`}>
+          <Conversation></Conversation>
         </Route>
       </Switch>
     </Container>

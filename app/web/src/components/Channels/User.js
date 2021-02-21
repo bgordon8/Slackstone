@@ -5,6 +5,7 @@ import StyledLink from '../StyledLink';
 import SideBarListItem from '../SideBarListItem';
 
 const User = ({ user }) => {
+  console.log(user.username);
   const { url } = useRouteMatch();
   return (
     <StyledLink
@@ -13,7 +14,7 @@ const User = ({ user }) => {
     >
       <SideBarListItem>
         <Bubble />
-        {User.username}
+        {user.username}
       </SideBarListItem>
     </StyledLink>
   );

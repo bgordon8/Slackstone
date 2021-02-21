@@ -36,6 +36,9 @@ const Channels = ({ channels, user }) => {
               <Bubble /> {auth.userInfo.username} <small>(you)</small>
             </SideBarListItem>
           </StyledLink>
+          {workspace.directMessages.map((user) => (
+            <User key={user.id} user={user} />
+          ))}
         </SideBarList>
       </>
     </Container>

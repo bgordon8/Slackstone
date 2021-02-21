@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Bubble = ({ on = true }) => {
   return on ? (
     <Green>
-      <StyledIcon on className="fas fa-circle" />
+      <StyledIcon on={true} className="fas fa-circle" />
     </Green>
   ) : (
     <StyledIcon className="far fa-circle" />
