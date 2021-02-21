@@ -10,6 +10,7 @@ const directMessageReducer = (state = initialState, action) => {
       return {
         ...state,
         messages: action.payload.messages,
+        user: action.payload.user,
       };
     }
     default:

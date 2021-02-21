@@ -15,7 +15,7 @@ export const getDirectMessageData = ({ workspaceId, recipientId }) => {
       );
       const responseBody = await res.json();
 
-      dispatchEvent({
+      dispatch({
         type: GET_DIRECT_MESSAGE_DATA,
         payload: responseBody,
       });

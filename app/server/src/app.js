@@ -6,6 +6,7 @@ import workspaceRoutes from './routes/workspace';
 import user from './middleware/user';
 import channelRoutes from './routes/channel';
 import userRoutes from './routes/user';
+import directMessageRoutes from './routes/directMessage';
 import { createSocketServer } from './socketServer';
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(authRoutes);
 app.use(workspaceRoutes);
 app.use(channelRoutes);
 app.use(userRoutes);
+app.use(directMessageRoutes);
 
 if (process.env.NODE_ENV !== 'test') {
   const server = app.listen(4000, () => {

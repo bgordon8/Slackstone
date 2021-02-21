@@ -25,15 +25,16 @@ const Conversation = () => {
     messageContainerRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
+  if (directMessage && !directMessage.user) {
+    return null;
+  }
   return (
     <>
-      <Header>user name</Header>
+      <Header>{directMessage.user.username}</Header>
       <Messages>
         <MessagesList>
-          {[{ messageId: 1, text: 'howdy' }].map((message) => (
-            <MessagesListItem key={message.messageId}>
-              {message.text}
-            </MessagesListItem>
+          {directMessage.messages.map((message) => (
+            <MessagesListItem key={message.id}>{message.text}</MessagesListItem>
           ))}
           <div ref={messageContainerRef}></div>
         </MessagesList>
@@ -41,7 +42,7 @@ const Conversation = () => {
       <InputContainer>
         <Input
           type="text"
-          placeholder={`message #user`}
+          placeholder={`message ${directMessage.user.username}`}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
